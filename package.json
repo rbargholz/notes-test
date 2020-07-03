@@ -30,6 +30,7 @@
     "grunt-karma": "^3.0.1",
     "grunt-mocha-nyc": "^1.0.3",
     "grunt-mocha-test": "^0.13.2",
+    "grunt-cli": "^1.3.2",
     "grunt-run": "^0.8.1",
     "jasmine-core": "^3.3.0",
     "karma": "^4.0.0",
