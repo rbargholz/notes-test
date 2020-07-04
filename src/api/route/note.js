@@ -17,8 +17,10 @@ module.exports.get = async (req, res) => {
 };
 
 module.exports.update = async (req, res) => {
-    await req.note.update(req.body);
-    res.json(req.note.expose());
+    if(!req.body.subject) {
+        await req.note.update(req.body);
+        res.json(req.note.expose());
+    }
 };
 
 module.exports.delete = async (req, res) => {
