@@ -3,7 +3,7 @@
 require('should');
 const sinon = require('sinon');
 const route = require('../../../src/api/route');
-
+const uuid = require('uuid');
 describe('Tests for api route note', () => {
     let req;
     let res;
@@ -46,6 +46,17 @@ describe('Tests for api route note', () => {
             req.currentUser.createNote.calledWithExactly(req.body).should.be.true();
             res.json.calledWithExactly('exposedNote').should.be.true();
         });
+
+        it('should create a note with the version number as v1', async() => {
+            req.currentUser = user;
+            req.body = {
+                note_id: uuid(),
+                subject: 'some subject',
+                body: 'some body'
+            };
+
+            await route.note.create(req, res);
+        })
     });
 
     describe('list', () => {

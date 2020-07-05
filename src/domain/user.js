@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const model = require('../model');
 const domain = require('../domain');
+const { Sequelize } = require('sequelize');
 
 class User {
     constructor(user) {
@@ -28,10 +29,15 @@ class User {
 
     async notes() {
         const notes = await this._user.getNotes({
-            order: [
-                ['updatedAt', 'DESC']
-            ],
+            attributes: [Sequelize.fn('DISTINCT', Sequelize.col('note_id')), 
+            'subject', 
+            'updatedAt', 
+            'id',
+            'version',
+            'note_id']
         });
+        console.log(notes)
+        
         return _.map(notes, note => new domain.Note(note));
     }
 

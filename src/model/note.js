@@ -1,6 +1,7 @@
 'use strict';
 
 const Sequelize = require('sequelize');
+const { INTEGER } = require('sequelize');
 
 module.exports.define = sequelize => {
     return sequelize.define('Note', {
@@ -9,6 +10,13 @@ module.exports.define = sequelize => {
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
+        },
+        note_id: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
         },
         subject: {
             type: Sequelize.STRING,
@@ -24,6 +32,13 @@ module.exports.define = sequelize => {
                 notEmpty: true
             }
         },
+        version: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        }
     }, {
         indexes: [
             {

@@ -1,8 +1,11 @@
 'use strict';
 
 const _ = require('lodash');
-
+const uuid = require('uuid')
 module.exports.create = async (req, res) => {
+    if(!req.body.note_id) {
+        req.body.note_id = uuid.v4()
+    }
     const note = await req.currentUser.createNote(req.body);
     res.json(note.expose());
 };
@@ -17,8 +20,9 @@ module.exports.get = async (req, res) => {
 };
 
 module.exports.update = async (req, res) => {
-    await req.note.update(req.body);
-    res.json(req.note.expose());
+    req.body.version += 1;
+    const note = await req.currentUser.createNote(req.body);
+    res.json(note.expose());
 };
 
 module.exports.delete = async (req, res) => {
