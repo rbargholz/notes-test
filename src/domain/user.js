@@ -29,12 +29,13 @@ class User {
 
     async notes() {
         const notes = await this._user.getNotes({
-            attributes: [Sequelize.fn('DISTINCT', Sequelize.col('note_id')), 
-            'subject', 
-            'updatedAt', 
-            'id',
-            'version',
-            'note_id']
+            attributes: [
+                'subject', 
+                'updatedAt', 
+                'id',
+                'version',
+                'note_id'
+            ]
         });
         console.log(notes)
         
@@ -53,9 +54,24 @@ class User {
         return new domain.Note(_.head(notes));
     }
 
+    async noteVersions(noteVersionId) {
+        const noteVersions = await model.NoteVersion.findAll({
+            where: {
+                note_id: noteVersionId
+            }
+        })
+
+        return _.map(noteVersions, version => new domain.NoteVersion(version));
+    }
+
     async createNote(note) {
         const createdNote = await this._user.createNote(note);
         return new domain.Note(createdNote);
+    }
+
+    async createNoteVersion(noteVersion) {
+        const createdNoteVersion = await model.NoteVersion.create(noteVersion)//this._user.createNoteVersion(noteVersion);
+        return new domain.NoteVersion(createdNoteVersion);
     }
 
     static async getById(id) {

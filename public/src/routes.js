@@ -36,7 +36,11 @@ angular.module('app').config(function($routeProvider) {
             session: Session => Session.current().$promise,
             note: (Note, $route) => Note.get({
                 id: $route.current.params.noteId
+            }).$promise,
+            versions: (NoteVersion, $route) => NoteVersion.get({
+                id: $route.current.params.noteVersionId
             }).$promise
+            
         }
     };
 
@@ -46,7 +50,7 @@ angular.module('app').config(function($routeProvider) {
             session: Session => Session.current().$promise,
             note: (Note, $route) => Note.get({
                 id: $route.current.params.noteId
-            }).$promise
+            }).$promise,
         }
     };
 
@@ -54,7 +58,7 @@ angular.module('app').config(function($routeProvider) {
         .when('/login', loginPage)
         .when('/error', errorPage)
         .when('/notes/create', noteCreatePage)
-        .when('/notes/:noteId', noteDetailPage)
+        .when('/notes/:noteId/:noteVersionId', noteDetailPage)
         .when('/notes/:noteId/edit', noteEditPage)
         .otherwise('/error');
 });

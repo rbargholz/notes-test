@@ -6,12 +6,12 @@ angular.module('app').component('noteEdit', {
         session: '<',
         note: '<',
     },
-    controller: function(Note, $location) {
-        this.updateNote = function() {
+    controller: function(NoteVersion, $location) {
+        this.createNoteVersion = function() {
             this.error = this._validate();
 
             if (!this.error) {
-                Note.save({
+                NoteVersion.save({
                     subject: this.note.subject,
                     body: this.note.body,
                     version: this.note.version + 1,

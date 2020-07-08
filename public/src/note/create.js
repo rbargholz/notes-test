@@ -8,6 +8,7 @@ angular.module('app').component('noteCreate', {
         this.createNote = function() {
             this.error = this._validate();
             if (!this.error) {
+                console.log("note is", Note)
                 Note.save({
                     subject: this.subject,
                     body: this.body,

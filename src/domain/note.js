@@ -26,12 +26,12 @@ class Note {
     await this._note.update(note);
   }
 
-  async delete(noteIdToDelete) {
+  async delete(id) {
     await this._note.destroy({
       where: {
-        note_id: noteIdToDelete,
-      },
-    });
+        note_id: id
+      }
+    })
   }
 }
 

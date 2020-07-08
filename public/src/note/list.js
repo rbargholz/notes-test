@@ -13,7 +13,6 @@ angular.module('app').component('noteList', {
 
         this.deleteNote = function(note) {
             this.error = null;
-
             Note.delete({
                 id: note.id
             }).$promise.then(() => {

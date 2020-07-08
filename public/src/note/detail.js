@@ -5,5 +5,6 @@ angular.module('app').component('noteDetail', {
     bindings: {
         session: '<',
         note: '<',
+        versions: '<'
     },
 });
