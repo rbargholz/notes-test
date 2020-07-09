@@ -24,6 +24,12 @@ module.exports.get = async (req, res) => {
 };
 
 module.exports.delete = async (req, res) => {
+    console.log(req.params)
+    await NoteVersion.destroy({
+        where: {
+            note_id: req.params.noteVersionId
+        }
+    });
     await req.note.delete();
     res.sendStatus(204);
 };

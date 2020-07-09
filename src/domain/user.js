@@ -64,12 +64,28 @@ class User {
         return _.map(noteVersions, version => new domain.NoteVersion(version));
     }
 
+    async mostRecentNoteVersion(noteVersionId) {
+        const mostRecentVersion = await model.NoteVersion.max('version', {
+             where: { 
+                 note_id: noteVersionId 
+                }
+            })
+        return mostRecentVersion
+    }
+
     async createNote(note) {
         const createdNote = await this._user.createNote(note);
         return new domain.Note(createdNote);
     }
 
     async createNoteVersion(noteVersion) {
+        var noteVersionToIncrememnt = await model.NoteVersion.max('version', {
+            where: { 
+                note_id: noteVersion.note_id 
+            }
+        })
+        
+        noteVersion.version = noteVersionToIncrememnt + 1;
         const createdNoteVersion = await model.NoteVersion.create(noteVersion)//this._user.createNoteVersion(noteVersion);
         return new domain.NoteVersion(createdNoteVersion);
     }

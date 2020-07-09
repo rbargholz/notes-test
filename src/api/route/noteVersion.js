@@ -5,6 +5,10 @@ module.exports.create = async (req, res) => {
 };
 
 module.exports.get = async (req, res) => {
-    console.log(req.noteVersions)
     res.json(_.invokeMap(req.noteVersions, 'expose'));
+};
+
+module.exports.getMostRecentVersion = async (req, res) => {
+    console.log(req.mostRecentNoteVersion)
+    res.json(req.mostRecentNoteVersion)
 };

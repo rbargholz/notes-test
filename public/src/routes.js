@@ -39,20 +39,17 @@ angular.module('app').config(function($routeProvider) {
             }).$promise,
             versions: $route => fetch('/api/noteVersions/' + $route.current.params.noteVersionId, {
                 method: 'GET'
-            }).then(r => r.json())
+            }).then(r => r.json()),
         }
     };
 
     const noteEditPage = {
-        template: '<note-edit session="$resolve.session" \
-                              note="$resolve.note"       \
-                              currentNoteVersion="$resolve.currentNoteVersion"></note-edit>',
+        template: '<note-edit session="$resolve.session" note="$resolve.note" currentNoteVersion="$resolve.currentNoteVersion"></note-edit>',
         resolve: {
             session: Session => Session.current().$promise,
             note: (Note, $route) => Note.get({
                 id: $route.current.params.noteId
             }).$promise,
-            currentNoteVersion: (NoteVersion) => NoteVersion.max('version').$promise
         }
     };
 

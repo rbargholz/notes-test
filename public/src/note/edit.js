@@ -5,7 +5,7 @@ angular.module('app').component('noteEdit', {
     bindings: {
         session: '<',
         note: '<',
-        currentNoteVersion: '<'
+        currentNoteVersion: '@'
     },
     controller: function(NoteVersion, $location) {
         this.createNoteVersion = function() {
@@ -15,7 +15,6 @@ angular.module('app').component('noteEdit', {
                 NoteVersion.save({
                     subject: this.note.subject,
                     body: this.note.body,
-                    version: this.currentNoteVersion + 1,
                     note_id: this.note.note_id
                 }).$promise.then(() => {
                     $location.path(`/notes/${ this.note.id }/${this.note.note_id}`);

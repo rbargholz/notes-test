@@ -27,11 +27,12 @@ class Note {
   }
 
   async delete(id) {
+    console.log('deleting', id)
     await this._note.destroy({
       where: {
         note_id: id
       }
-    })
+    });
   }
 }
 
