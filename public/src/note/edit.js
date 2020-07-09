@@ -17,7 +17,7 @@ angular.module('app').component('noteEdit', {
                     version: this.note.version + 1,
                     note_id: this.note.note_id
                 }).$promise.then(() => {
-                    $location.path(`/notes/${ this.note.id }`);
+                    $location.path(`/notes/${ this.note.id }/${this.note.note_id}`);
                 }).catch(reason => {
                     this.error = 'Error occurred while updating the note.';
                 });

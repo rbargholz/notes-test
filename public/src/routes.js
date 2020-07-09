@@ -37,10 +37,9 @@ angular.module('app').config(function($routeProvider) {
             note: (Note, $route) => Note.get({
                 id: $route.current.params.noteId
             }).$promise,
-            versions: (NoteVersion, $route) => NoteVersion.get({
-                id: $route.current.params.noteVersionId
-            }).$promise
-            
+            versions: $route => fetch('/api/noteVersions/' + $route.current.params.noteVersionId, {
+                method: 'GET'
+            })  
         }
     };
 
@@ -59,6 +58,6 @@ angular.module('app').config(function($routeProvider) {
         .when('/error', errorPage)
         .when('/notes/create', noteCreatePage)
         .when('/notes/:noteId/:noteVersionId', noteDetailPage)
-        .when('/notes/:noteId/edit', noteEditPage)
+        .when('/notes/:noteId/:noteVersionId/edit', noteEditPage)
         .otherwise('/error');
 });

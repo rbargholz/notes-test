@@ -51,9 +51,10 @@ function setupRoutesWithRequiredAuthentication(router) {
         route.note.delete
     );
     router.get(
-        '/noteVersions?id=:noteVersionId',
+        '/noteVersions/:noteVersionId',
         route.noteVersion.get
     );
+    
     router.post(
         '/noteVersions',
         apiMiddleware.jsonParser,

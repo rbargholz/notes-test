@@ -4,12 +4,12 @@
     <li><a href="#!/">List</a></li>
     <li class="active" ng-bind="$ctrl.note.subject"></li>
     <li><select >
-        <option *ngFor="let v of $ctrl.versions"></option>
+        <option *ngFor="let v of $ctrl.versions" [value]="$ctrl.v.version">{{ $ctrl.versions.version }}</option>
     </select></li>
 </ol>
 
 <p class="clearfix">
-    <a class="btn btn-default pull-right" ng-href="#!/notes/{{ $ctrl.note.id }}/edit">Edit</a>
+    <a class="btn btn-default pull-right" ng-href="#!/notes/{{ $ctrl.note.id }}/{{ $ctrl.note.note_id }}/edit">Edit</a>
 </p>
 
 <div class="panel panel-default">
