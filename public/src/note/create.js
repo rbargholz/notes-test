@@ -4,7 +4,7 @@ angular.module('app').component('noteCreate', {
     bindings: {
         session: '<',
     },
-    controller: function(Note, $location) {
+    controller: function(Note, NoteVersion, $location) {
         this.createNote = function() {
             this.error = this._validate();
             if (!this.error) {

@@ -3,11 +3,11 @@
 <ol class="breadcrumb">
     <li><a href="#!/">List</a></li>
     <li class="active" ng-bind="$ctrl.note.subject"></li>
-    <li><select >
-        <option *ngFor="let v of $ctrl.versions" [value]="$ctrl.v.version">{{ $ctrl.versions.version }}</option>
+    <li><select ng-model="selectedVersion" ng-options="v.version for v in $ctrl.versions">
+    <option value="" label="-- Select a note version --"></option>
     </select></li>
 </ol>
-
+<p>{{selectedVersion.body}}</p>
 <p class="clearfix">
     <a class="btn btn-default pull-right" ng-href="#!/notes/{{ $ctrl.note.id }}/{{ $ctrl.note.note_id }}/edit">Edit</a>
 </p>
