@@ -10,6 +10,13 @@ module.exports.define = sequelize => {
             primaryKey: true,
             autoIncrement: true
         },
+        parent_id: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
         note_id: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -17,6 +24,7 @@ module.exports.define = sequelize => {
                 notEmpty: true
             }
         },
+
         subject: {
             type: Sequelize.STRING,
             allowNull: false,

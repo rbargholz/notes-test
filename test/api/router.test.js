@@ -39,12 +39,12 @@ describe('Tests for api router', () => {
         });
 
         it('should setup the router', () => {
-            router.get.callCount.should.equal(3);
-            router.post.callCount.should.equal(2);
-            router.put.callCount.should.equal(1);
+            router.get.callCount.should.equal(4);
+            router.post.callCount.should.equal(3);
+            router.put.callCount.should.equal(0);
             router.delete.callCount.should.equal(2);
             router.use.callCount.should.equal(2);
-            router.param.callCount.should.equal(1);
+            router.param.callCount.should.equal(2);
         });
 
         it('should setup the middlewares', () => {
@@ -83,18 +83,30 @@ describe('Tests for api router', () => {
                 route.note.create
             ).should.be.true();
             router.get.calledWithExactly(
-                '/notes/:noteId',
+                '/notes/:noteId/:noteVersionId',
                 route.note.get
             ).should.be.true();
-            router.put.calledWithExactly(
-                '/notes/:noteId',
-                apiMiddleware.jsonParser,
-                route.note.update
-            ).should.be.true();
+            // router.put.calledWithExactly(
+            //     '/notes/:noteId',
+            //     apiMiddleware.jsonParser,
+            //     route.note.update
+            // ).should.be.true();
             router.delete.calledWithExactly(
-                '/notes/:noteId',
+                '/notes/:noteId/:noteVersionId',
                 route.note.delete
             ).should.be.true();
+
+            //NoteVersion
+            router.get.calledWithExactly(
+                '/noteVersions/:noteVersionId',
+                route.noteVersion.get
+            ).should.be.true();
+
+            router.post.calledWithExactly(
+                '/noteVersions',
+                apiMiddleware.jsonParser,
+                route.noteVersion.create
+            ).should.be.true()
         });
     });
 });

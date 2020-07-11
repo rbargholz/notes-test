@@ -79,10 +79,6 @@ describe('noteList', function() {
             expect(ctrl.error).toBeNull();
         });
 
-        it('should delete all versions of a note', () => {
-            
-        })
-
         it('should delete the Note then set error if failure', () => {
             Note.delete.and.returnValue({
                 $promise: $q.reject('Error'),

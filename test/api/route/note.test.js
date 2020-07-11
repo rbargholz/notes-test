@@ -8,6 +8,7 @@ describe('Tests for api route note', () => {
     let req;
     let res;
     let note;
+    let noteVersion;
     let user;
 
     beforeEach(() => {
@@ -23,8 +24,13 @@ describe('Tests for api route note', () => {
             delete: sinon.stub().resolves(),
         };
 
+        noteVersion = {
+            expose: sinon.stub().returns('exposedNote'),
+        }
+
         user = {
             createNote: sinon.stub().resolves(note),
+            createNoteVersion: sinon.stub().resolves(noteVersion),
             notes: sinon.stub().resolves([
                 note,
                 note,
@@ -33,30 +39,23 @@ describe('Tests for api route note', () => {
         };
     });
 
+
     describe('create', () => {
-        it('should create a note then json expose it', async () => {
+        it('should create a note, immediately version it as v1, then json expose it', async () => {
             req.currentUser = user;
             req.body = {
                 subject: 'some subject',
                 body: 'some body',
+                note_id: uuid.v4(),
+                version: 1
             };
 
             await route.note.create(req, res);
 
             req.currentUser.createNote.calledWithExactly(req.body).should.be.true();
+            req.currentUser.createNoteVersion.calledWithExactly(req.body, false).should.be.true()
             res.json.calledWithExactly('exposedNote').should.be.true();
         });
-
-        it('should create a note with the version number as v1', async() => {
-            req.currentUser = user;
-            req.body = {
-                note_id: uuid(),
-                subject: 'some subject',
-                body: 'some body'
-            };
-
-            await route.note.create(req, res);
-        })
     });
 
     describe('list', () => {
@@ -85,24 +84,27 @@ describe('Tests for api route note', () => {
     });
 
     describe('update', () => {
-        it('should update a note then json the exposed note', async () => {
+        it('should create a new note version, then json the exposed note', async () => {
+            req.currentUser = user;
             req.note = note;
 
             req.body = {
                 body: 'some body',
             };
 
-            await route.note.update(req, res);
+            await route.noteVersion.create(req, res);
 
-            req.note.update.calledWithExactly(req.body).should.be.true();
+            req.currentUser.createNoteVersion.calledWithExactly(req.body, true).should.be.true();
             res.json.calledWithExactly('exposedNote').should.be.true();
         });
     });
 
     describe('delete', () => {
-        it('should delete a note then send 204 status', async () => {
+        it('should delete a note, all versions then send 204 status', async () => {
             req.note = note;
-
+            req.params =  {
+                noteVersionId: req.note.note_id
+            }
             await route.note.delete(req, res);
 
             req.note.delete.calledWithExactly().should.be.true();

@@ -1,5 +1,4 @@
 'use strict';
-
 angular.module('app').config(function($routeProvider) {
     const loginPage = {
         template: '<login session="$resolve.session"></login>',
@@ -35,7 +34,8 @@ angular.module('app').config(function($routeProvider) {
         resolve: {
             session: Session => Session.current().$promise,
             note: (Note, $route) => Note.get({
-                id: $route.current.params.noteId
+                id: $route.current.params.noteId,
+                noteVersionId: $route.current.params.noteVersionId
             }).$promise,
             versions: $route => fetch('/api/noteVersions/' + $route.current.params.noteVersionId, {
                 method: 'GET'
@@ -44,12 +44,12 @@ angular.module('app').config(function($routeProvider) {
     };
 
     const noteEditPage = {
-        template: '<note-edit session="$resolve.session" note="$resolve.note" currentNoteVersion="$resolve.currentNoteVersion"></note-edit>',
+        template: '<note-edit session="$resolve.session" note="$resolve.note"></note-edit>',
         resolve: {
             session: Session => Session.current().$promise,
-            note: (Note, $route) => Note.get({
-                id: $route.current.params.noteId
-            }).$promise,
+            note: $route => fetch('/api/noteVersions/' + $route.current.params.noteVersionId, {
+                method: 'GET'
+            }).then(r => r.json()).then(json => json.find(note => note.version === Math.max.apply(Math, json.map(o => { return o.version; }))))
         }
     };
 

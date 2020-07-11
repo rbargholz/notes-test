@@ -19,6 +19,7 @@ class NoteVersion {
       "updatedAt",
       "version",
       "note_id",
+      "parent_id"
     ]);
   }
 }

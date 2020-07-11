@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 require('should');
+const uuid = require('uuid');
 const domain = require('../../src/domain');
 const model = require('../../src/model');
 
@@ -20,6 +21,8 @@ describe('Tests for domain Note', () => {
         const note = await modelUser.createNote({
             subject: 'some subject',
             body: 'some body',
+            note_id: uuid.v4(),
+            version: 1
         });
         noteId = note.id;
         domainNote = new domain.Note(note);

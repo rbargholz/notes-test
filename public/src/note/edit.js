@@ -5,7 +5,6 @@ angular.module('app').component('noteEdit', {
     bindings: {
         session: '<',
         note: '<',
-        currentNoteVersion: '@'
     },
     controller: function(NoteVersion, $location) {
         this.createNoteVersion = function() {
@@ -15,9 +14,10 @@ angular.module('app').component('noteEdit', {
                 NoteVersion.save({
                     subject: this.note.subject,
                     body: this.note.body,
-                    note_id: this.note.note_id
+                    note_id: this.note.note_id,
+                    parent_id: this.note.parent_id
                 }).$promise.then(() => {
-                    $location.path(`/notes/${ this.note.id }/${this.note.note_id}`);
+                    $location.path(`/notes/${ this.note.parent_id }/${this.note.note_id}`);
                 }).catch(reason => {
                     this.error = 'Error occurred while updating the note.';
                 });

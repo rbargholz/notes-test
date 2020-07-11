@@ -37,8 +37,7 @@ class User {
                 'note_id'
             ]
         });
-        console.log(notes)
-        
+
         return _.map(notes, note => new domain.Note(note));
     }
 
@@ -78,15 +77,17 @@ class User {
         return new domain.Note(createdNote);
     }
 
-    async createNoteVersion(noteVersion) {
-        var noteVersionToIncrememnt = await model.NoteVersion.max('version', {
-            where: { 
-                note_id: noteVersion.note_id 
-            }
-        })
-        
-        noteVersion.version = noteVersionToIncrememnt + 1;
-        const createdNoteVersion = await model.NoteVersion.create(noteVersion)//this._user.createNoteVersion(noteVersion);
+    async createNoteVersion(noteToVersion, shouldIncrement) {
+        if(shouldIncrement) {
+            var noteVersionToIncrememnt = await model.NoteVersion.max('version', {
+                where: { 
+                    note_id: noteToVersion.note_id 
+                }
+            })
+            
+            noteToVersion.version = noteVersionToIncrememnt + 1;
+        }
+        const createdNoteVersion = await model.NoteVersion.create(noteToVersion)//this._user.createNoteVersion(noteVersion);
         return new domain.NoteVersion(createdNoteVersion);
     }
 

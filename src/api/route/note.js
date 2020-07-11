@@ -9,7 +9,8 @@ module.exports.create = async (req, res) => {
         req.body.note_id = uuid.v4()
     }
     const note = await req.currentUser.createNote(req.body);
-    const initialNoteVersion = await NoteVersion.create(req.body);
+    req.body.parent_id = note.id
+    const noteVersion = await req.currentUser.createNoteVersion(req.body, false);
     res.json(note.expose());
 };
 
@@ -19,12 +20,10 @@ module.exports.list = async (req, res) => {
 };
 
 module.exports.get = async (req, res) => {
-    console.log(req.note)
     res.json(req.note.expose());
 };
 
 module.exports.delete = async (req, res) => {
-    console.log(req.params)
     await NoteVersion.destroy({
         where: {
             note_id: req.params.noteVersionId

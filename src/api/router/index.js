@@ -38,7 +38,7 @@ function setupRoutesWithRequiredAuthentication(router) {
         route.note.create
     );
     router.get(
-        '/notes/:noteId',
+        '/notes/:noteId/:noteVersionId',
         route.note.get
     );
     // router.put(
