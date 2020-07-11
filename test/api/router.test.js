@@ -86,11 +86,7 @@ describe('Tests for api router', () => {
                 '/notes/:noteId/:noteVersionId',
                 route.note.get
             ).should.be.true();
-            // router.put.calledWithExactly(
-            //     '/notes/:noteId',
-            //     apiMiddleware.jsonParser,
-            //     route.note.update
-            // ).should.be.true();
+
             router.delete.calledWithExactly(
                 '/notes/:noteId/:noteVersionId',
                 route.note.delete

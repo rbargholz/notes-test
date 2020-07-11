@@ -41,11 +41,7 @@ function setupRoutesWithRequiredAuthentication(router) {
         '/notes/:noteId/:noteVersionId',
         route.note.get
     );
-    // router.put(
-    //     '/notes/:noteId',
-    //     apiMiddleware.jsonParser,
-    //     route.noteVersion.create
-    // );
+
     router.delete(
         '/notes/:noteId/:noteVersionId',
         route.note.delete

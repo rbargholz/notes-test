@@ -87,7 +87,7 @@ class User {
             
             noteToVersion.version = noteVersionToIncrememnt + 1;
         }
-        const createdNoteVersion = await model.NoteVersion.create(noteToVersion)//this._user.createNoteVersion(noteVersion);
+        const createdNoteVersion = await model.NoteVersion.create(noteToVersion)
         return new domain.NoteVersion(createdNoteVersion);
     }
 
