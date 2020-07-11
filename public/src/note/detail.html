@@ -3,7 +3,7 @@
 <ol class="breadcrumb">
     <li><a href="#!/">List</a></li>
     <li class="active" ng-bind="$ctrl.note.subject"></li>
-    <li><select ng-model="selectedVersion" ng-options="v.version for v in $ctrl.versions track by v.id" ng-init="selectedVersion = $ctrl.versions[$ctrl.versions.length - 1]">
+    <li><span style="margin-right: 8px;">Note version</span><select style="width: 50px;" ng-model="selectedVersion" ng-options="v.version for v in $ctrl.versions track by v.id" ng-init="selectedVersion = $ctrl.versions[$ctrl.versions.length - 1]">
     <option value="" label="-- Select a note version --"></option>
     </select></li>
 </ol>
