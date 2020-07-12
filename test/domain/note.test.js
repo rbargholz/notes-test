@@ -21,7 +21,7 @@ describe('Tests for domain Note', () => {
         const note = await modelUser.createNote({
             subject: 'some subject',
             body: 'some body',
-            note_id: uuid.v4(),
+            note_id: '1234-1234-1234-1234',
             version: 1
         });
         noteId = note.id;
@@ -36,12 +36,14 @@ describe('Tests for domain Note', () => {
         });
 
         describe('expose', () => {
-            it('should expose the id, subject, body and updatedAt of the note', () => {
+            it('should expose the id, subject, body, version, note_id and updatedAt of the note', () => {
                 domainNote.expose().should.match({
                     id: noteId,
                     subject: 'some subject',
                     body: 'some body',
                     updatedAt: _.isDate,
+                    version: _.isNumber,
+                    note_id: '1234-1234-1234-1234'
                 });
             });
         });

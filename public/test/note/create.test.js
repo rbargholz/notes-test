@@ -56,7 +56,7 @@ describe('noteCreate', function() {
 
             ctrl.subject = 'some subject';
             ctrl.body = 'some body';
-
+            ctrl.version = 1
             ctrl.createNote();
 
             $rootScope.$digest();
@@ -64,6 +64,7 @@ describe('noteCreate', function() {
             expect(Note.save).toHaveBeenCalledWith({
                 subject: 'some subject',
                 body: 'some body',
+                version: 1
             });
 
             expect($location.path).toHaveBeenCalledWith('/');
@@ -77,6 +78,7 @@ describe('noteCreate', function() {
 
             ctrl.subject = 'some subject';
             ctrl.body = 'some body';
+            ctrl.version = 1
 
             ctrl.createNote();
 
@@ -85,6 +87,7 @@ describe('noteCreate', function() {
             expect(Note.save).toHaveBeenCalledWith({
                 subject: 'some subject',
                 body: 'some body',
+                version: 1
             });
 
             expect($location.path).not.toHaveBeenCalledWith('/');

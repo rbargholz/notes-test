@@ -30,16 +30,16 @@ angular.module('app').config(function($routeProvider) {
     };
 
     const noteDetailPage = {
-        template: '<note-detail session="$resolve.session" note="$resolve.note" versions="$resolve.versions"></note-detail>',
+        template: '<note-detail session="$resolve.session"  versions="$resolve.versions" note="$resolve.note"></note-detail>',
         resolve: {
             session: Session => Session.current().$promise,
-            note: (Note, $route) => Note.get({
-                id: $route.current.params.noteId,
+            versions: (NoteVersion, $route) => NoteVersion.query({
                 noteVersionId: $route.current.params.noteVersionId
             }).$promise,
-            versions: $route => fetch('/api/noteVersions/' + $route.current.params.noteVersionId, {
-                method: 'GET'
-            }).then(r => r.json()),
+            note: (Note, $route) => Note.get({
+                id: $route.current.params.noteId, 
+                noteVersionId: $route.current.params.noteVersionId
+            }).$promise,
         }
     };
 
@@ -47,9 +47,9 @@ angular.module('app').config(function($routeProvider) {
         template: '<note-edit session="$resolve.session" note="$resolve.note"></note-edit>',
         resolve: {
             session: Session => Session.current().$promise,
-            note: $route => fetch('/api/noteVersions/' + $route.current.params.noteVersionId, {
-                method: 'GET'
-            }).then(r => r.json()).then(json => json.find(note => note.version === Math.max.apply(Math, json.map(o => { return o.version; }))))
+            note: (NoteVersion, $route) => NoteVersion.query({
+                noteVersionId: $route.current.params.noteVersionId
+            }).$promise//.then(json => json.find(note => note.version === Math.max.apply(Math, json.map(o => { return o.version; }))))
         }
     };
 

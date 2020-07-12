@@ -22,6 +22,10 @@ class NoteVersion {
       "parent_id"
     ]);
   }
+
+  async save(noteVersion) {
+    await this._noteVersion.save(noteVersion);
+  }
 }
 
 module.exports = NoteVersion;
