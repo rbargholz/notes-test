@@ -9,7 +9,6 @@ angular.module('app').component('noteEdit', {
     controller: function($scope, NoteVersion, $location) {
         this.$onInit = function () {
             this.note = this.note.find(note => note.version === Math.max.apply(Math, this.note.map(o => { return o.version; })))
-            console.log(this.note)
         }
         this.createNoteVersion = function() {
             this.error = this._validate();
