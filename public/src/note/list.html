@@ -19,7 +19,7 @@
 
     <tr ng-repeat="note in $ctrl.notes">
         <td>
-            <a ng-href="#!/notes/{{ note.id }}" ng-bind="note.subject"></a>
+            <a ng-href="#!/notes/{{ note.id }}/{{note.note_id}}" ng-bind="note.subject"></a>
         </td>
 
         <td ng-bind="note.updatedAt | date:'medium'"></td>

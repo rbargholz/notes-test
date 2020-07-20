@@ -1,18 +1,17 @@
 'use strict';
-
 angular.module('app').component('noteCreate', {
     templateUrl: '/src/note/create.html',
     bindings: {
         session: '<',
     },
-    controller: function(Note, $location) {
+    controller: function(Note, NoteVersion, $location) {
         this.createNote = function() {
             this.error = this._validate();
-
             if (!this.error) {
                 Note.save({
                     subject: this.subject,
                     body: this.body,
+                    version: 1
                 }).$promise.then(() => {
                     $location.path('/');
                 }).catch(reason => {

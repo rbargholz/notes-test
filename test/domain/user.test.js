@@ -4,7 +4,7 @@ const _ = require('lodash');
 require('should');
 const domain = require('../../src/domain');
 const model = require('../../src/model');
-
+const uuid = require('uuid');
 describe('Tests for domain User', () => {
     let userId1;
     let noteId1;
@@ -23,6 +23,8 @@ describe('Tests for domain User', () => {
                 const notes = await Promise.all(_.map(_.times(5, n => ({
                     subject: `subject ${ n }`,
                     body: `body ${ n }`,
+                    note_id: uuid.v4(),
+                    version: 1
                 })), note => user.createNote(note)));
                 noteId1 = _.first(notes).id;
             })(),
@@ -120,7 +122,9 @@ describe('Tests for domain User', () => {
             it('should create a new note associated to the user', async () => {
                 const createdNote = await domainUser1.createNote({
                     subject: 'new subject',
-                    body: 'new body'
+                    body: 'new body',
+                    note_id: uuid.v4(),
+                    version: 1
                 });
 
                 await domainUser1.note(createdNote.id).should.be.fulfilled();

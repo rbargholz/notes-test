@@ -1,32 +1,38 @@
-'use strict';
+"use strict";
 
-const _ = require('lodash');
+const _ = require("lodash");
 
 class Note {
-    constructor(note) {
-        this._note = note;
-    }
+  constructor(note) {
+    this._note = note;
+  }
 
-    get id() {
-        return this._note.id;
-    }
+  get id() {
+    return this._note.id;
+  }
 
-    expose() {
-        return _.pick(this._note, [
-            'id',
-            'subject',
-            'body',
-            'updatedAt',
-        ]);
-    }
+  expose() {
+    return _.pick(this._note, [
+      "id",
+      "subject",
+      "body",
+      "updatedAt",
+      "version",
+      "note_id",
+    ]);
+  }
 
-    async update(note) {
-        await this._note.update(note);
-    }
+  async update(note) {
+    await this._note.update(note);
+  }
 
-    async delete() {
-        await this._note.destroy();
-    }
+  async delete(id) {
+    await this._note.destroy({
+      where: {
+        note_id: id
+      }
+    });
+  }
 }
 
 module.exports = Note;

@@ -1,5 +1,4 @@
 'use strict';
-
 describe('noteList', function() {
     let $componentController;
     let ctrl;
@@ -31,11 +30,15 @@ describe('noteList', function() {
                 id: 56,
                 subject: 'some subject',
                 body: 'some body',
+                version: 1,
+                note_id: '1234-5678-9012-3423'
             }),
             new Note({
                 id: 57,
                 subject: 'another subject',
                 body: 'another body',
+                version: 1,
+                note_id: '1234-5678-9012-3423'
             }),
         ];
 
@@ -73,6 +76,7 @@ describe('noteList', function() {
 
             expect(Note.delete).toHaveBeenCalledWith({
                 id: 56,
+                noteVersionId: '1234-5678-9012-3423'
             });
 
             expect($route.reload).toHaveBeenCalled();
@@ -90,6 +94,7 @@ describe('noteList', function() {
 
             expect(Note.delete).toHaveBeenCalledWith({
                 id: 56,
+                noteVersionId: '1234-5678-9012-3423'
             });
 
             expect($route.reload).not.toHaveBeenCalled();

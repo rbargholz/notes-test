@@ -13,9 +13,9 @@ angular.module('app').component('noteList', {
 
         this.deleteNote = function(note) {
             this.error = null;
-
             Note.delete({
-                id: note.id
+                id: note.id,
+                noteVersionId: note.note_id
             }).$promise.then(() => {
                 $route.reload();
             }).catch(reason => {

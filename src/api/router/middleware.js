@@ -32,6 +32,7 @@ module.exports.checkAuthentication = async (req, res) => {
 };
 
 module.exports.errorHandler = (e, req, res, next) => {
+    console.log(e)
     if (res.headersSent) {
         return next(e);
     }
@@ -42,6 +43,7 @@ module.exports.errorHandler = (e, req, res, next) => {
         });
     }
     else {
+        
         res.status(500);
         res.json({
             code: ApiError.Code.INTERNAL_SERVER_ERROR.name,

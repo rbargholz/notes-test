@@ -6,17 +6,21 @@ angular.module('app').component('noteEdit', {
         session: '<',
         note: '<',
     },
-    controller: function(Note, $location) {
-        this.updateNote = function() {
+    controller: function($scope, NoteVersion, $location) {
+        this.$onInit = function () {
+            this.note = this.note.find(note => note.version === Math.max.apply(Math, this.note.map(o => { return o.version; })))
+        }
+        this.createNoteVersion = function() {
             this.error = this._validate();
 
             if (!this.error) {
-                Note.update({
-                    id: this.note.id
-                }, {
-                    body: this.note.body
+                NoteVersion.save({
+                    subject: this.note.subject,
+                    body: this.note.body,
+                    note_id: this.note.note_id,
+                    parent_id: this.note.parent_id
                 }).$promise.then(() => {
-                    $location.path(`/notes/${ this.note.id }`);
+                    $location.path(`/notes/${ this.note.parent_id }/${this.note.note_id}`);
                 }).catch(reason => {
                     this.error = 'Error occurred while updating the note.';
                 });

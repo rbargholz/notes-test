@@ -3,18 +3,20 @@
 <ol class="breadcrumb">
     <li><a href="#!/">List</a></li>
     <li class="active" ng-bind="$ctrl.note.subject"></li>
+    <li><span style="margin-right: 8px;">Note version</span><select style="width: 50px;" ng-model="selectedVersion" ng-options="v.version for v in $ctrl.versions track by v.id" ng-init="selectedVersion = $ctrl.versions[$ctrl.versions.length - 1]">
+    <option value="" label="-- Select a note version --"></option>
+    </select></li>
 </ol>
-
 <p class="clearfix">
-    <a class="btn btn-default pull-right" ng-href="#!/notes/{{ $ctrl.note.id }}/edit">Edit</a>
+    <a class="btn btn-default pull-right" ng-href="#!/notes/{{ $ctrl.note.id }}/{{ $ctrl.note.note_id }}/edit">Edit</a>
 </p>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title" ng-bind="$ctrl.note.subject"></h3>
+        <h3 class="panel-title" ng-bind="selectedVersion.subject"></h3>
     </div>
 
-    <div class="panel-body" style="white-space: pre-wrap;" ng-bind="$ctrl.note.body"></div>
+    <div class="panel-body" style="white-space: pre-wrap;" ng-bind="selectedVersion.body"></div>
 
-    <div class="panel-footer" ng-bind="$ctrl.note.updatedAt | date:'medium'"></div>
+    <div class="panel-footer" ng-bind="selectedVersion.updatedAt | date:'medium'"></div>
 </div>

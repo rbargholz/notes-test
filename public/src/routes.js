@@ -1,5 +1,4 @@
 'use strict';
-
 angular.module('app').config(function($routeProvider) {
     const loginPage = {
         template: '<login session="$resolve.session"></login>',
@@ -31,12 +30,16 @@ angular.module('app').config(function($routeProvider) {
     };
 
     const noteDetailPage = {
-        template: '<note-detail session="$resolve.session" note="$resolve.note"></note-detail>',
+        template: '<note-detail session="$resolve.session"  versions="$resolve.versions" note="$resolve.note"></note-detail>',
         resolve: {
             session: Session => Session.current().$promise,
+            versions: (NoteVersion, $route) => NoteVersion.query({
+                noteVersionId: $route.current.params.noteVersionId
+            }).$promise,
             note: (Note, $route) => Note.get({
-                id: $route.current.params.noteId
-            }).$promise
+                id: $route.current.params.noteId, 
+                noteVersionId: $route.current.params.noteVersionId
+            }).$promise,
         }
     };
 
@@ -44,9 +47,9 @@ angular.module('app').config(function($routeProvider) {
         template: '<note-edit session="$resolve.session" note="$resolve.note"></note-edit>',
         resolve: {
             session: Session => Session.current().$promise,
-            note: (Note, $route) => Note.get({
-                id: $route.current.params.noteId
-            }).$promise
+            note: (NoteVersion, $route) => NoteVersion.query({
+                noteVersionId: $route.current.params.noteVersionId
+            }).$promise//.then(json => json.find(note => note.version === Math.max.apply(Math, json.map(o => { return o.version; }))))
         }
     };
 
@@ -54,7 +57,7 @@ angular.module('app').config(function($routeProvider) {
         .when('/login', loginPage)
         .when('/error', errorPage)
         .when('/notes/create', noteCreatePage)
-        .when('/notes/:noteId', noteDetailPage)
-        .when('/notes/:noteId/edit', noteEditPage)
+        .when('/notes/:noteId/:noteVersionId', noteDetailPage)
+        .when('/notes/:noteId/:noteVersionId/edit', noteEditPage)
         .otherwise('/error');
 });

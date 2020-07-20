@@ -6,24 +6,27 @@ describe('routes', function() {
     let $route;
     let $location;
     let Session;
+    let NoteVersion
     let Note;
     let path;
 
     beforeEach(() => {
         module('app');
 
-        inject((_$q_, _$rootScope_, _$route_, _$location_, _Session_, _Note_) => {
+        inject((_$q_, _$rootScope_, _$route_, _$location_, _Session_, _Note_, _NoteVersion_) => {
             $q = _$q_;
             $rootScope = _$rootScope_;
             $route = _$route_;
             $location = _$location_;
             Session = _Session_;
             Note = _Note_;
+            NoteVersion = _NoteVersion_;
         });
 
         spyOn(Session, 'current');
         spyOn(Note, 'query');
         spyOn(Note, 'get');
+        spyOn(NoteVersion, 'query');
     });
 
     function resolveCurrentSession(done) {
@@ -96,7 +99,28 @@ describe('routes', function() {
         $route.current.resolve.note(Note, $route).then(notes => {
             expect(notes).toEqual('note');
             expect(Note.get).toHaveBeenCalledWith({
-                id: ':noteId'
+                id: ':noteId',
+                noteVersionId: ':noteVersionId'
+            });
+
+            done();
+        }).catch(reason => {
+            fail(`Should not reject: ${ reason }`);
+            done();
+        });
+
+        $rootScope.$digest();
+    }
+
+    function resolveNoteVersion(done) {
+        NoteVersion.query.and.returnValue({
+            $promise: $q.when('note'),
+        });
+
+        $route.current.resolve.note(NoteVersion, $route).then(noteVersions => {
+            expect(noteVersions).toEqual('note');
+            expect(NoteVersion.query).toHaveBeenCalledWith({
+                noteVersionId: ':noteVersionId'
             });
 
             done();
@@ -184,7 +208,7 @@ describe('routes', function() {
 
     describe('noteDetailPage', () => {
         beforeEach(() => {
-            path = '/notes/:noteId';
+            path = '/notes/:noteId/:noteVersionId';
         });
 
         it('should resolve when current session', done => {
@@ -214,7 +238,7 @@ describe('routes', function() {
 
     describe('noteEditPage', () => {
         beforeEach(() => {
-            path = '/notes/:noteId/edit';
+            path = '/notes/:noteId/:noteVersionId/edit';
         });
 
         it('should resolve when current session', done => {
@@ -233,12 +257,11 @@ describe('routes', function() {
             rejectNoCurrentSession(done);
         });
 
-        it('should resolve note', done => {
+        it('should resolve most recent note version', done => {
             $location.path(path);
 
             $rootScope.$digest();
-
-            resolveNote(done);
+            resolveNoteVersion(done);
         });
     });
 
