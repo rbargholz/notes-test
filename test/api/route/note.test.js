@@ -86,6 +86,17 @@ describe('Tests for api route note', () => {
             req.note.update.calledWithExactly(req.body).should.be.true();
             res.json.calledWithExactly('exposedNote').should.be.true();
         });
+        it('should not update the note if the subject is a part of the update request', async() => {
+            req.note = note
+            req.body = {
+                subject: 'test subject'
+            }
+
+            await route.note.update(req, res);
+            req.note.update.calledWithExactly(req.body).should.be.false();
+            res.json.calledWithExactly('exposedNote').should.be.false();
+
+        })
     });
 
     describe('delete', () => {
